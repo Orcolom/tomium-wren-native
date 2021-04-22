@@ -79,7 +79,7 @@ WrenBindForeignMethodResult APITest_bindForeignMethod(
 WrenForeignClassMethods APITest_bindForeignClass(
     WrenVM* vm, const char* module, const char* className)
 {
-  WrenForeignClassMethods methods = { NULL, NULL };
+  WrenForeignClassMethods methods = { NULL, NULL, NULL };
   if (strncmp(module, "./test/api", 7) != 0) return methods;
 
   foreignClassBindClass(className, &methods);

@@ -115,6 +115,7 @@ WrenForeignClassMethods wrenRandomBindForeignClass(WrenVM* vm,
   WrenForeignClassMethods methods;
   methods.allocate = randomAllocate;
   methods.finalize = NULL;
+  methods.userData = NULL;
   return methods;
 }
 
