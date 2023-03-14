@@ -41,7 +41,16 @@ endef
 define POSTBUILDCMDS
 endef
 
-ifeq ($(config),release_64bit)
+ifeq ($(config),release_64bit-api)
+TARGETDIR = ../../lib
+TARGET = $(TARGETDIR)/libwren.dylib
+OBJDIR = obj/64bit-API/Release/wren_shared
+DEFINES += -DNDEBUG -DWREN_API_DLLEXPORT=1
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c99
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
+ALL_LDFLAGS += $(LDFLAGS) -m64 -dynamiclib -Wl,-install_name,@rpath/libwren.dylib
+
+else ifeq ($(config),release_64bit)
 TARGETDIR = ../../lib
 TARGET = $(TARGETDIR)/libwren.dylib
 OBJDIR = obj/64bit/Release/wren_shared
@@ -67,6 +76,15 @@ DEFINES += -DNDEBUG -DWREN_NAN_TAGGING=0
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2 -fPIC -std=c99
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -fPIC
 ALL_LDFLAGS += $(LDFLAGS) -dynamiclib -Wl,-install_name,@rpath/libwren.dylib
+
+else ifeq ($(config),debug_64bit-api)
+TARGETDIR = ../../lib
+TARGET = $(TARGETDIR)/libwren_d.dylib
+OBJDIR = obj/64bit-API/Debug/wren_shared
+DEFINES += -DDEBUG -DWREN_API_DLLEXPORT=1
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c99
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
+ALL_LDFLAGS += $(LDFLAGS) -m64 -dynamiclib -Wl,-install_name,@rpath/libwren_d.dylib
 
 else ifeq ($(config),debug_64bit)
 TARGETDIR = ../../lib

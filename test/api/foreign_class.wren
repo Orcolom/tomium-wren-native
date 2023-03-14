@@ -7,6 +7,8 @@ foreign class Counter {
   construct new() {}
   foreign increment(amount)
   foreign value
+
+  foreign instanceUserData
 }
 
 var counter = Counter.new()
@@ -35,12 +37,20 @@ foreign class Point is PointBase {
 
   foreign translate(x, y, z)
   foreign toString
+
+  foreign instanceUserData
+  foreign static finalizeResult
 }
 
+System.print(Point.finalizeResult)  // expect: 404
 var p = Point.new(1, 2, 3) // expect: 1, 2, 3
 System.print(p) // expect: (1, 2, 3)
 p.translate(3, 4, 5)
 System.print(p) // expect: (4, 6, 8)
+
+p = null
+System.gc()
+System.print(Point.finalizeResult)  // expect: 100200
 
 p = Point.new() // expect: default
 System.print(p) // expect: (0, 0, 0)
@@ -85,3 +95,6 @@ error = Fiber.new {
   BadClass.new()
 }.try()
 System.print(error) // expect: Something went wrong
+
+System.print(counter.instanceUserData) // expect: 12345
+System.print(p.instanceUserData) // expect: 100200

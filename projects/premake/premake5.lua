@@ -1,6 +1,6 @@
 workspace "wren"
   configurations { "Release", "Debug" }
-  platforms { "64bit", "32bit", "64bit-no-nan-tagging" }
+  platforms { "64bit-API", "64bit", "32bit", "64bit-no-nan-tagging" }
   defaultplatform "64bit"
   startproject "wren_test"
   location ("../" .. _ACTION)
@@ -16,6 +16,9 @@ workspace "wren"
 
   filter "platforms:64bit-no-nan-tagging"
     defines { "WREN_NAN_TAGGING=0" }
+    
+  filter "platforms:64bit-API"
+    defines { "WREN_API_DLLEXPORT=1" }
 
   --the 'xcode4' and 'gmake2' folder names
   --are simply confusing, so, simplify then
@@ -35,6 +38,9 @@ workspace "wren"
     architecture "x86"
 
   filter "platforms:64bit"
+    architecture "x86_64"
+    
+  filter "platforms:64bit-API"
     architecture "x86_64"
 
   filter "system:windows"

@@ -1,3 +1,13 @@
+⚠️
+
+Find the main version of wren at https://github.com/wren-lang/wren
+
+This version has small changes to make building for Unity easier.
+
+> *original readme below*
+
+⚠️
+
 ## Wren is a small, fast, class-based concurrent scripting language
 
 Think Smalltalk in a Lua-sized package with a dash of Erlang and wrapped up in
