@@ -39,3 +39,8 @@ ipch/
 
 # macOS
 .DS_Store
+
+# zig building
+zig-build/zig-cache
+zig-build/zig-out
+zig-build/wren.c
