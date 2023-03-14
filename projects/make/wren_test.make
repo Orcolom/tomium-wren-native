@@ -31,7 +31,18 @@ endef
 define POSTBUILDCMDS
 endef
 
-ifeq ($(config),release_64bit)
+ifeq ($(config),release_64bit-api)
+TARGETDIR = ../../bin
+TARGET = $(TARGETDIR)/wren_test
+OBJDIR = obj/64bit-API/Release/wren_test
+DEFINES += -DNDEBUG -DWREN_API_DLLEXPORT=1
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c99
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2
+LIBS += ../../lib/libwren.a -lm
+LDDEPS += ../../lib/libwren.a
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
+
+else ifeq ($(config),release_64bit)
 TARGETDIR = ../../bin
 TARGET = $(TARGETDIR)/wren_test
 OBJDIR = obj/64bit/Release/wren_test
@@ -63,6 +74,17 @@ ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2
 LIBS += ../../lib/libwren.a -lm
 LDDEPS += ../../lib/libwren.a
 ALL_LDFLAGS += $(LDFLAGS) -s
+
+else ifeq ($(config),debug_64bit-api)
+TARGETDIR = ../../bin
+TARGET = $(TARGETDIR)/wren_test_d
+OBJDIR = obj/64bit-API/Debug/wren_test
+DEFINES += -DDEBUG -DWREN_API_DLLEXPORT=1
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c99
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g
+LIBS += ../../lib/libwren_d.a -lm
+LDDEPS += ../../lib/libwren_d.a
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),debug_64bit)
 TARGETDIR = ../../bin

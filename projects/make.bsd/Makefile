@@ -8,7 +8,12 @@ ifndef verbose
   SILENT = @
 endif
 
-ifeq ($(config),release_64bit)
+ifeq ($(config),release_64bit-api)
+  wren_config = release_64bit-api
+  wren_shared_config = release_64bit-api
+  wren_test_config = release_64bit-api
+
+else ifeq ($(config),release_64bit)
   wren_config = release_64bit
   wren_shared_config = release_64bit
   wren_test_config = release_64bit
@@ -22,6 +27,11 @@ else ifeq ($(config),release_64bit-no-nan-tagging)
   wren_config = release_64bit-no-nan-tagging
   wren_shared_config = release_64bit-no-nan-tagging
   wren_test_config = release_64bit-no-nan-tagging
+
+else ifeq ($(config),debug_64bit-api)
+  wren_config = debug_64bit-api
+  wren_shared_config = debug_64bit-api
+  wren_test_config = debug_64bit-api
 
 else ifeq ($(config),debug_64bit)
   wren_config = debug_64bit
@@ -75,9 +85,11 @@ help:
 	@echo "Usage: make [config=name] [target]"
 	@echo ""
 	@echo "CONFIGURATIONS:"
+	@echo "  release_64bit-api"
 	@echo "  release_64bit"
 	@echo "  release_32bit"
 	@echo "  release_64bit-no-nan-tagging"
+	@echo "  debug_64bit-api"
 	@echo "  debug_64bit"
 	@echo "  debug_32bit"
 	@echo "  debug_64bit-no-nan-tagging"

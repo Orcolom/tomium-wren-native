@@ -39,7 +39,18 @@ endef
 define POSTBUILDCMDS
 endef
 
-ifeq ($(config),release_64bit)
+ifeq ($(config),release_64bit-api)
+TARGETDIR = ../../bin
+TARGET = $(TARGETDIR)/wren_test
+OBJDIR = obj/64bit-API/Release/wren_test
+DEFINES += -DNDEBUG -DWREN_API_DLLEXPORT=1
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c99
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2
+LIBS += ../../lib/libwren.a
+LDDEPS += ../../lib/libwren.a
+ALL_LDFLAGS += $(LDFLAGS) -m64
+
+else ifeq ($(config),release_64bit)
 TARGETDIR = ../../bin
 TARGET = $(TARGETDIR)/wren_test
 OBJDIR = obj/64bit/Release/wren_test
@@ -71,6 +82,17 @@ ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2
 LIBS += ../../lib/libwren.a
 LDDEPS += ../../lib/libwren.a
 ALL_LDFLAGS += $(LDFLAGS)
+
+else ifeq ($(config),debug_64bit-api)
+TARGETDIR = ../../bin
+TARGET = $(TARGETDIR)/wren_test_d
+OBJDIR = obj/64bit-API/Debug/wren_test
+DEFINES += -DDEBUG -DWREN_API_DLLEXPORT=1
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c99
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g
+LIBS += ../../lib/libwren_d.a
+LDDEPS += ../../lib/libwren_d.a
+ALL_LDFLAGS += $(LDFLAGS) -m64
 
 else ifeq ($(config),debug_64bit)
 TARGETDIR = ../../bin
@@ -125,6 +147,7 @@ OBJECTS += $(OBJDIR)/call_calls_foreign.o
 OBJECTS += $(OBJDIR)/call_wren_call_root.o
 OBJECTS += $(OBJDIR)/error.o
 OBJECTS += $(OBJDIR)/foreign_class.o
+OBJECTS += $(OBJDIR)/foreign_method_user_data.o
 OBJECTS += $(OBJDIR)/get_variable.o
 OBJECTS += $(OBJDIR)/handle.o
 OBJECTS += $(OBJDIR)/lists.o
@@ -217,6 +240,9 @@ $(OBJDIR)/error.o: ../../test/api/error.c
 	@echo $(notdir $<)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/foreign_class.o: ../../test/api/foreign_class.c
+	@echo $(notdir $<)
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/foreign_method_user_data.o: ../../test/api/foreign_method_user_data.c
 	@echo $(notdir $<)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/get_variable.o: ../../test/api/get_variable.c
