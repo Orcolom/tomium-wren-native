@@ -1209,7 +1209,7 @@ static void blackenUpvalue(WrenVM* vm, ObjUpvalue* upvalue)
 static void blackenObject(WrenVM* vm, Obj* obj)
 {
 #if WREN_DEBUG_TRACE_MEMORY
-  printf("mark ");
+  printf("[WREN] mark ");
   wrenDumpValue(OBJ_VAL(obj));
   printf(" @ %p\n", obj);
 #endif
@@ -1245,7 +1245,7 @@ void wrenBlackenObjects(WrenVM* vm)
 void wrenFreeObj(WrenVM* vm, Obj* obj)
 {
 #if WREN_DEBUG_TRACE_MEMORY
-  printf("free ");
+  printf("[WREN] free ");
   wrenDumpValue(OBJ_VAL(obj));
   printf(" @ %p\n", obj);
 #endif

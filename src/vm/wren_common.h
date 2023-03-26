@@ -161,7 +161,7 @@
       {                                                                        \
         if (!(condition))                                                      \
         {                                                                      \
-          fprintf(stderr, "[%s:%d] Assert failed in %s(): %s\n",               \
+          fprintf(stderr, "[WREN] [%s:%d] Assert failed in %s(): %s\n",        \
               __FILE__, __LINE__, __func__, message);                          \
           abort();                                                             \
         }                                                                      \
@@ -177,7 +177,7 @@
   #define UNREACHABLE()                                                        \
       do                                                                       \
       {                                                                        \
-        fprintf(stderr, "[%s:%d] This code should not be reached in %s()\n",   \
+        fprintf(stderr, "[WREN] [%s:%d] This code should not be reached in %s()\n",   \
             __FILE__, __LINE__, __func__);                                     \
         abort();                                                               \
       } while (false)

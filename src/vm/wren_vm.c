@@ -125,7 +125,7 @@ void wrenFreeVM(WrenVM* vm)
 void wrenCollectGarbage(WrenVM* vm)
 {
 #if WREN_DEBUG_TRACE_MEMORY || WREN_DEBUG_TRACE_GC
-  printf("-- gc --\n");
+  printf("[WREN] -- gc --\n");
 
   size_t before = vm->bytesAllocated;
   double startTime = (double)clock() / CLOCKS_PER_SEC;
@@ -201,7 +201,7 @@ void wrenCollectGarbage(WrenVM* vm)
   double elapsed = ((double)clock() / CLOCKS_PER_SEC) - startTime;
   // Explicit cast because size_t has different sizes on 32-bit and 64-bit and
   // we need a consistent type for the format string.
-  printf("GC %lu before, %lu after (%lu collected), next at %lu. Took %.3fms.\n",
+  printf("[WREN] GC %lu before, %lu after (%lu collected), next at %lu. Took %.3fms.\n",
          (unsigned long)before,
          (unsigned long)vm->bytesAllocated,
          (unsigned long)(before - vm->bytesAllocated),
@@ -215,7 +215,7 @@ void* wrenReallocate(WrenVM* vm, void* memory, size_t oldSize, size_t newSize)
 #if WREN_DEBUG_TRACE_MEMORY
   // Explicit cast because size_t has different sizes on 32-bit and 64-bit and
   // we need a consistent type for the format string.
-  printf("reallocate %p %lu -> %lu\n",
+  printf("[WREN] reallocate %p %lu -> %lu\n",
          memory, (unsigned long)oldSize, (unsigned long)newSize);
 #endif
 

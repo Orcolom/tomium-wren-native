@@ -22,7 +22,7 @@ pub fn build(b: *std.Build) void {
     const lib = b.addSharedLibrary(.{
         .name = name,
         .target = target,
-        .optimize = optimize,
+        .optimize = std.builtin.OptimizeMode.Debug, // NOTE: Release* gives a broken dll. Need to look into this
     });
 
     const flags = [_][]const u8{
@@ -32,7 +32,13 @@ pub fn build(b: *std.Build) void {
     lib.linkLibC();
     lib.addCSourceFile("wren.c", &flags);
     lib.defineCMacro("WREN_API_DLLEXPORT", "1");
-    if (isDebug) lib.defineCMacro("DEBUG", "1");
+
+    var isDebugValue = if(isDebug) "1" else "0";
+    
+    lib.defineCMacro("DEBUG", isDebugValue);
+    lib.defineCMacro("WREN_DEBUG_TRACE_INSTRUCTIONS", isDebugValue);
+    lib.defineCMacro("WREN_DEBUG_TRACE_GC", isDebugValue);
+
 
     // This declares intent for the library to be installed into the standard
     // location when the user invokes the "install" step (the default step when
