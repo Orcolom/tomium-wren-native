@@ -4,9 +4,20 @@ Find the main version of wren at https://github.com/wren-lang/wren
 
 This version has small changes to make building for Unity easier.
 
-> *original readme below*
+> [Start original readme](#Wren-is-a-small-fast-class-based-concurrent-scripting-language)
 
 ⚠️
+
+## Building
+
+prerequisite
+- python 3
+- zig 0.11
+
+1. goto ./zig-build/
+2. run run-build.bat
+3. copy all files from ./zig-build/zig-out/lib/
+
 
 ## Wren is a small, fast, class-based concurrent scripting language
 
